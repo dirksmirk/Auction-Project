@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function StartPage() {
+function Home () {
     const [Auctions, setAuctions] = useState(null)
 
 
@@ -46,4 +46,4 @@ function StartPage() {
     )
 }
 
-export default StartPage;
+export default Home;
