@@ -1,11 +1,13 @@
 import './App.css'
-import StartPage from './Pages/StartPage'
+import Navigation from './Pages/Navigation'
+import Switch from './Pages/Switch'
 
 function App() {
 
   return (
     <>
-      <StartPage />
+      <Navigation />
+      <Switch />
     </>
   )
 }
