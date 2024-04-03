@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom"
-import Home from "./Home"
-import CreateAuction from "./CreateAuction"
+import Home from "./SwitchPages/Home"
+import CreateAuction from "./SwitchPages/CreateAuction"
 
 const Switch = () => {
     return (
