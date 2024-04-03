@@ -5,7 +5,7 @@ const Navigation = () => {
         <nav> 
             <NavLink to="/">Home</NavLink>
             <NavLink to="create">Create Auction</NavLink>
-            <input type="Search" placeholder="Search for any auction" />   
+            <input type="Search" placeholder="Search for any auction" />  
         </nav>
     )
 }

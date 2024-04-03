@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import BidAuction from './BidAuction'
+import AuctionItem from './smaller components/AuctionItem'
 
 function Home () {
     const [Auctions, setAuctions] = useState(null)
@@ -31,13 +33,14 @@ function Home () {
                 {Auctions && <ul>
                     {Auctions.map((auction, idx) => (
                         <li key={idx}>
-                            <p>{auction.AuctionID}</p>
+                            {/* <p>{auction.AuctionID}</p>
                             <p>{auction.Title}</p>
                             <p>{auction.Description}</p>
                             <p>{auction.StartingPrice}</p>
                             <p>{auction.CreatedBy}</p>
                             <p>{auction.StartDate}</p>
-                            <p>{auction.EndDate}</p>
+                            <p>{auction.EndDate}</p> */}
+                            <AuctionItem auction={auction}/>
                         </li>
                     ))}
                 </ul>}
