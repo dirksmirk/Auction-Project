@@ -1,6 +1,6 @@
-import './App.css'
-import Navigation from './Pages/Navigation'
-import Switch from './Pages/Switch'
+import './css/App.css'
+import Navigation from './components/Navigation'
+import Switch from './components/Switch'
 
 function App() {
 
