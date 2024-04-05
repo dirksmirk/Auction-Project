@@ -62,7 +62,7 @@ function Home() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('https://auctioneer.azurewebsites.net/auction/7bac')
+        fetch('https://auctioneer2.azurewebsites.net/auction/7bac')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
