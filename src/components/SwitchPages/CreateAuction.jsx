@@ -23,7 +23,7 @@ async function handleSubmit(e) {
     };
     console.log(data)
 
-     await fetch('https://auctioneer.azurewebsites.net/auction/7bac',{
+     await fetch('https://auctioneer2.azurewebsites.net/auction/7bac',{
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'
