@@ -1,21 +1,34 @@
-import React,{useState} from 'react'
+import { useRef } from "react";
 
 const CreateAuction = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [startBid, setStartBid] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const title = useRef();
+    const description = useRef();
+    const startBid = useRef();
+    const startTime = useRef();
+    const endTime = useRef();
+    const creator = useRef()
 
-const handleSubmit=(e)=>{
+
+async function handleSubmit(e) {
     e.preventDefault();
-    console.log({title, description, startBid, endTime})
+    
+    const data = {
+        "Title": title.current.value,
+        "Description": description.current.value,
+        "StartDate": startTime.current.value,
+        "EndDate": endTime.current.value,
+        "GroupCode": "7bac",
+        "StartingPrice": startBid.current.value,
+        "CreatedBy": creator.current.value
+    };
+    console.log(data)
 
-    fetch('https://auctioneer.azurewebsites.net/auction/7bac',{
+     await fetch('https://auctioneer.azurewebsites.net/auction/7bac',{
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, description,  startBid, endTime})
+        body: JSON.stringify(data)
      }) 
      .then(response=>response.json())  
      .then(data => {
@@ -24,9 +37,7 @@ const handleSubmit=(e)=>{
     })
     .catch(error => {
         console.error('Error creating auction:', error);
-    });
-
-   
+    }); 
 
 }
 
@@ -35,20 +46,28 @@ const handleSubmit=(e)=>{
         <h1>New Auction</h1>
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="title">title</label>
-                <input type="text" name="title" value={title} onChange={e=> setTitle (e.target.value)}/>
+                <label htmlFor="title">Titel</label><br />
+                <input type="text" name="title" ref={title} />
             </div>
             <div>
-                <label htmlFor="description">description</label>
-                <textarea name="description" value={description} onChange={e=> setDescription (e.target.value)}/>
+                <label htmlFor="description">Ge en beskrivning av ditt föremål!</label><br />
+                <textarea name="description" ref={description} />
             </div>
             <div>
-                <label htmlFor="startBid">startBid</label>
-                <input type="number" name="startBid" value={startBid} onChange={e=> setStartBid (e.target.value)}/>
+                <label htmlFor="startBid">Start bud</label><br />
+                <input type="number" name="startBid" ref={startBid} />
             </div>
             <div>
-                <label htmlFor="endTime">endTime</label>
-                <input type="datetime-local" name="endTime" value={endTime} onChange={e=> setEndTime (e.target.value)}/>
+                <label htmlFor="startTime">Start tid</label><br />
+                <input type="datetime-local" name="startTime" ref={startTime} />
+            </div>
+            <div>
+                <label htmlFor="endTime">Slut tid</label><br />
+                <input type="datetime-local" name="endTime" ref={endTime} />
+            </div>
+            <div>
+                <label htmlFor="creator">Ditt namn</label><br />
+                <input type="text" name="creator" ref={creator} />
             </div>
             <button type="submit">Create</button>
         </form>
