@@ -41,7 +41,7 @@ function Home() {
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         <AuctionItem auction={auction} />
                         <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}> {/* Use Link instead of button */}
-                            <button style={{ marginTop: '10px' }}>Bid on this auction</button>
+                            <button style={{ marginTop: '10px' }}>Go to auction</button>
                         </Link>
                     </div>
                 ))}
