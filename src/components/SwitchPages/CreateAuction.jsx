@@ -8,6 +8,11 @@ const CreateAuction = () => {
     const endTime = useRef();
     const creator = useRef()
 
+    // Function to get formatted current datetime
+    function getCurrentDateTime() {
+        const now = new Date();
+        return now.toISOString().slice(0, 16);
+    }
 
 async function handleSubmit(e) {
     e.preventDefault();
@@ -33,12 +38,10 @@ async function handleSubmit(e) {
      .then(response=>response.json())  
      .then(data => {
         console.log('Auction created successfully:', data);
-        
     })
     .catch(error => {
         console.error('Error creating auction:', error);
-    }); 
-
+    });
 }
 
   return (
@@ -59,7 +62,7 @@ async function handleSubmit(e) {
             </div>
             <div>
                 <label htmlFor="startTime">Start tid</label><br />
-                <input type="datetime-local" name="startTime" ref={startTime} />
+                <input type="datetime-local" name="startTime" ref={startTime} defaultValue={getCurrentDateTime()} />
             </div>
             <div>
                 <label htmlFor="endTime">Slut tid</label><br />
@@ -72,8 +75,6 @@ async function handleSubmit(e) {
             <button type="submit">Create</button>
         </form>
     </div>
-      
-    
   )
 }
 
