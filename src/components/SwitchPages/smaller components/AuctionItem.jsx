@@ -4,11 +4,11 @@ const AuctionItem = ({ auction, isBidding, setAuctionId }) => {
             {auction && (
                 <>
                     <h1>{auction.Title}</h1>
+                    {isBidding && <p><b>Description: </b> - {auction.Description}</p>}
                     <p>Start price - {auction.StartingPrice}</p>
                     <p>Seller - {auction.CreatedBy}</p>
                     <p><b>Sart date</b> -  {auction.StartDate}</p>
                     <p><b>End date</b> - {auction.EndDate}</p>
-                    {isBidding && <p><b>Description: </b> - {auction.Description}</p>}
                 </>
             )}
         </div>
