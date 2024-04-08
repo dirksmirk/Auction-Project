@@ -62,7 +62,7 @@ const BidAuction = () => {
             {auction && <AuctionItem isBidding={true} auction={auction} />}
             <ul>
                 {bids.map((bid, index) => (
-                    <li key={index}>Bid: {bid.amount}</li>
+                    <li key={index}>Bid: {bid.Amount}</li>
                 ))}
             </ul>
             <form onSubmit={handleBidSubmit}>
