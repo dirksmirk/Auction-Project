@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
+import AuctionItem from "./smaller components/AuctionItem";
 
-const BidAuction = ({ auction }) => {
+const BidAuction = () => {
     const [bids, setBids] = useState(null)
+    let location = useLocation()
+    const auction = location.state.auction
+
     useEffect(() => {
       const getAllBids = () => {
         fetch('https://auctioneer.azurewebsites.net/bid/7bac/' + auction.AuctionID)
@@ -10,23 +15,14 @@ const BidAuction = ({ auction }) => {
           setBids(data)
         })
       }
-      getAllBids()
+      // getAllBids()
+      console.log(location)
     }, [])
 
 
     return (
         <div style={{ border: '1px solid red', padding: '10px' }}>
-            {auction && (
-                <>
-                    <h1>{auction.Title}</h1>
-                    <h2>Description</h2>
-                    <p>{auction.Description}</p>
-                    <p>Start price - {auction.StartingPrice}</p>
-                    <p>Seller - {auction.CreatedBy}</p>
-                    <p><b>Sart date</b> -  {auction.StartDate}</p>
-                    <p><b>End date</b> - {auction.EndDate}</p>
-                </>
-            )}
+            {auction && <AuctionItem isBidding={true} auction={auction} />}
         </div>
     );
 }
