@@ -8,7 +8,7 @@ const Switch = () => {
         <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="create" element={<CreateAuction />}></Route>
-            <Route path="bid/:id" element={<BidAuction />}></Route>
+            <Route path="bid" element={<BidAuction />}></Route>
         </Routes>
     )
 }

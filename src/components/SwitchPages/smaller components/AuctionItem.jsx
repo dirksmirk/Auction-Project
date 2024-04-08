@@ -1,4 +1,4 @@
-const AuctionItem = ({ auction, isBidding, setAuctionId }) => {
+const AuctionItem = ({ auction, setAuctionId }) => {
     return (
         <div style={{ border: '1px solid red', padding: '10px' }}>
             {auction && (
@@ -9,6 +9,7 @@ const AuctionItem = ({ auction, isBidding, setAuctionId }) => {
                     <p>Seller - {auction.CreatedBy}</p>
                     <p><b>Sart date</b> -  {auction.StartDate}</p>
                     <p><b>End date</b> - {auction.EndDate}</p>
+
                 </>
             )}
         </div>
