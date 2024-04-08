@@ -82,14 +82,3 @@ const BidAuction = () => {
 
 export default BidAuction;
 
-
-
-
-
-
-
-
-
-    // async function handleSubmit(e) {
-    //   e.preventDefault();
-    // }
