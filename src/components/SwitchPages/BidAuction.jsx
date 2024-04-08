@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from 'react-router-dom';
 import AuctionItem from "./smaller components/AuctionItem";
 
 const BidAuction = () => {
     const [bids, setBids] = useState([]);
-    const [newBidAmount, setNewBidAmount] = useState('');
+    const newBidAmount = useRef();
+    const newBidder = useRef();
     const location = useLocation();
     const auction = location.state.auction;
 
@@ -24,21 +25,21 @@ const BidAuction = () => {
 
     const handleBidSubmit = (e) => {
         e.preventDefault();
-        if (isNaN(newBidAmount) || newBidAmount <= 0) {
+        /* if (isNaN(newBidAmount) || newBidAmount <= 0) {
             console.error('Invalid bid amount');
             return;
-        }
+        } */
         
-        fetch('https://auctioneer2.azurewebsites.net/place-bid/7bac', {
+        fetch(`https://auctioneer2.azurewebsites.net/bid/7bac`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                AuctionID: auction.AuctionID,
-                Amount: newBidAmount,
-                GroupCode: "7bac",
-                Bidder: newBidder,
+                "AuctionID": auction.AuctionID,
+                "Amount": newBidAmount.current.value,
+                "GroupCode": "7bac",
+                "Bidder": newBidder.current.value
             }),
         })
         .then((res) => {
@@ -50,7 +51,6 @@ const BidAuction = () => {
         .then((data) => {
             console.log('Bid placed successfully:', data);
             setBids([...bids, data]);
-            setNewBidAmount('');
         })
         .catch((error) => {
             console.error('Failed to place bid:', error);
@@ -68,7 +68,11 @@ const BidAuction = () => {
             <form onSubmit={handleBidSubmit}>
                 <label>
                     New Bid Amount:
-                    <input type="number" value={newBidAmount} onChange={(e) => setNewBidAmount(e.target.value)} />
+                    <input type="number" ref={newBidAmount} />
+                </label>
+                <label>
+                    Enter name:
+                    <input type="text" ref={newBidder} />
                 </label>
                 <button type="submit">Place Bid</button>
             </form>
