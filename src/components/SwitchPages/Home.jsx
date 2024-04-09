@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+i
+import React, { useState, useEffect } from 'react'; // Import React
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 
@@ -20,12 +21,20 @@ function Home() {
             .then(data => {
                 setAuctions(data);
                 setLoading(false);
+                console.log(data)
             })
             .catch(error => {
                 setError(error.message);
                 setLoading(false);
             });
     }, []);
+
+    // Function to check if auction has ended
+    const hasAuctionEnded = (auction) => {
+        const endTime = new Date(auction.EndDate).getTime(); // Convert end time to milliseconds
+        const currentTime = new Date().getTime(); // Get current time in milliseconds
+        return endTime < currentTime;
+    };
 
     // Render loading message if data is still loading
     if (loading) {
@@ -46,11 +55,16 @@ function Home() {
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         {/* Render AuctionItem component */}
                         <AuctionItem auction={auction} />
-
-                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}> {/* Use Link instead of button */}
-                            <button style={{ marginTop: '10px' }}>Go to auction</button>
-
-                        </Link>
+                        {/* Render link to either bid or closed auction */}
+                        {hasAuctionEnded(auction) ? (
+                            <Link to={`/closed/${auction.AuctionID}`} style={{ textDecoration: 'none' }}>
+                                <button style={{ marginTop: '10px' }}>Closed Auction</button>
+                            </Link>
+                        ) : (
+                            <Link to={`/bid/${auction.AuctionID}`} style={{ textDecoration: 'none' }}>
+                                <button style={{ marginTop: '10px' }}>Go to auction</button>
+                            </Link>
+                        )}
                     </div>
                 ))}
             </div>
