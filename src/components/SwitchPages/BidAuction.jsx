@@ -9,20 +9,25 @@ const BidAuction = () => {
     const location = useLocation();
     const auction = location.state.auction;
     const [errorMessage, setErrorMessage] = useState('');
+    const [highestBid, setHighestBid] = useState(0); 
+
 
     useEffect(() => {
         const getAllBids = () => {
             fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auction.AuctionID}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    setBids(data);
-                })
-                .catch((error) => {
-                    console.error('Failed to fetch bids:', error);
-                });
-        };
-        getAllBids();
-    }, [auction.AuctionID]);
+                  setBids(data);
+                  // Calculate the highest bid from fetched bids
+                  const highest = data.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
+                  setHighestBid(highest);
+              })
+              .catch((error) => {
+                  console.error('Failed to fetch bids:', error);
+              });
+      };
+      getAllBids();
+  }, [auction.AuctionID]);
 
     const handleBidSubmit = (e) => {
         e.preventDefault();
@@ -86,8 +91,9 @@ const BidAuction = () => {
             {errorMessage && <div>{errorMessage}</div>}
             <ul>
                 {bids.map((bid, index) => (
-                    <li key={index}>Bid: {bid.Amount}</li>
+                    <li key={index}>Bid by {bid.Bidder}: {bid.Amount}</li>
                 ))}
+                <p>Current Highest Bid: {highestBid}</p>
             </ul>
             <form onSubmit={handleBidSubmit}>
                 <label>
