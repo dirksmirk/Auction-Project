@@ -8,6 +8,7 @@ const BidAuction = () => {
     const newBidder = useRef();
     const location = useLocation();
     const auction = location.state.auction;
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const getAllBids = () => {
@@ -25,10 +26,27 @@ const BidAuction = () => {
 
     const handleBidSubmit = (e) => {
         e.preventDefault();
-        /* if (isNaN(newBidAmount) || newBidAmount <= 0) {
-            console.error('Invalid bid amount');
-            return;
-        } */
+
+        const currentBidAmount = parseFloat(newBidAmount.current.value);
+
+        const now = new Date();
+        const startDate = new Date(auction.StartDate);
+        const endDate = new Date(auction.EndDate);
+
+        if (now < startDate) {
+          setErrorMessage("The auction has not started yet.")
+
+          return;
+        }
+
+        const highestBid = bids.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
+
+        if (currentBidAmount <= highestBid) {
+          setErrorMessage('Your bid amount is too low!')
+
+          return;
+        }
+        
         
         fetch(`https://auctioneer2.azurewebsites.net/bid/7bac`, {
             method: 'POST',
@@ -60,6 +78,7 @@ const BidAuction = () => {
     return (
         <div>
             {auction && <AuctionItem isBidding={true} auction={auction} />}
+            {errorMessage && <div>{errorMessage}</div>}
             <ul>
                 {bids.map((bid, index) => (
                     <li key={index}>Bid: {bid.Amount}</li>
