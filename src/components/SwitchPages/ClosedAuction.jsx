@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function ClosedAuctionPage() {
+function ClosedAuction() {
   const [auctionData, setAuctionData] = useState(null);
+  const location = useLocation();
+  const auction = location.state.auction;
 
   useEffect(() => {
     fetch('https://auctioneer2.azurewebsites.net/auction/7bac')
@@ -34,4 +37,4 @@ function ClosedAuctionPage() {
   );
 }
 
-export default ClosedAuctionPage;
+export default ClosedAuction;
