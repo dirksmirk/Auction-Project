@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 
@@ -42,12 +42,14 @@ function Home() {
         <div style={{ margin: '20px' }}>
             <h1>Auction Items</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {auctions.length > 0 && auctions.map((auction, index) => (
+                {auctions.length > 0 && auctions.slice(0, 5).map((auction, index) => (
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         {/* Render AuctionItem component */}
                         <AuctionItem auction={auction} />
+
                         <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}> {/* Use Link instead of button */}
                             <button style={{ marginTop: '10px' }}>Go to auction</button>
+
                         </Link>
                     </div>
                 ))}
