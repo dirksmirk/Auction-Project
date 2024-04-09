@@ -1,4 +1,4 @@
-i
+
 import React, { useState, useEffect } from 'react'; // Import React
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
