@@ -39,6 +39,11 @@ const BidAuction = () => {
           return;
         }
 
+        if (now > endDate) {
+          setErrorMessage('The auction has ended')
+          return;
+        }
+
         const highestBid = bids.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
 
         if (currentBidAmount <= highestBid) {
