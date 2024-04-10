@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
+import { SearchContext } from '../../Context';
 
 function Home() {
+    const { myValue } = useContext(SearchContext);
     // Define state variables to manage auctions data, loading status, and errors
     const [auctions, setAuctions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -37,12 +39,17 @@ function Home() {
         return <div>Error: {error}</div>;
     }
 
+    const filteredAuctions = myValue
+        ? auctions.filter(auction => auction.title && auction.title.toLowerCase().includes(myValue.toLowerCase()))
+        : auctions;
+
     // Render the list of auction items if data is successfully fetched
     return (
         <div style={{ margin: '20px' }}>
             <h1>Auction Items</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {auctions.length > 0 && auctions.map((auction, index) => (
+                {filteredAuctions.length > 0 ? (
+                    filteredAuctions.map((auction, index) => (
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         {/* Render AuctionItem component */}
                         <AuctionItem auction={auction} />
@@ -50,7 +57,10 @@ function Home() {
                             <button style={{ marginTop: '10px' }}>Go to auction</button>
                         </Link>
                     </div>
-                ))}
+                    ))
+                ) :(
+                    <div>No auctions found</div>
+                )}
             </div>
         </div>
     );
