@@ -40,7 +40,7 @@ function Home() {
     }
 
     const filteredAuctions = myValue
-        ? auctions.filter(auction => auction.title && auction.title.toLowerCase().includes(myValue.toLowerCase()))
+        ? auctions.filter(auction => auction.Title && auction.Title.toLowerCase().includes(myValue.toLowerCase()))
         : auctions;
 
     // Render the list of auction items if data is successfully fetched
