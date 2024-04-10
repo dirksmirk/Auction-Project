@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // Import useLocation from react-router-dom
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function ClosedAuction() {
   // State variables to hold auction data and loading state
   const [auctionData, setAuctionData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [closingBid, setClosingBid] = useState(0);
 
   // Get current location using useLocation hook from react-router-dom
   const location = useLocation();
@@ -24,6 +25,18 @@ function ClosedAuction() {
         // If the auction has already ended
         setAuctionData([auction]); // Add the closed auction to state
         setLoading(false);
+
+        // Fetch closing bid
+        fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auction.AuctionID}`)
+          .then((res) => res.json())
+          .then((data) => {
+            // Calculate the highest bid from fetched bids
+            const highest = data.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
+            setClosingBid(highest);
+          })
+          .catch((error) => {
+            console.error('Failed to fetch closing bid:', error);
+          });
       } else {
         // If the auction is still ongoing
         setLoading(false); // No closed auction to display
@@ -52,6 +65,7 @@ function ClosedAuction() {
               <p><strong>Description:</strong> {auction.Description}</p>
               <p><strong>Start Date:</strong> {auction.StartDate}</p>
               <p><strong>End Date:</strong> {auction.EndDate}</p>
+              <p><strong>Closing Bid:</strong> {closingBid}</p> {/* Display closing bid */}
               <hr />
             </div>
           ))
