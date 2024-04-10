@@ -1,23 +1,29 @@
-import { useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { SearchContext } from "../Context";
+import { useContext, useRef } from "react";
 
 
 const Navigation = () => {
-    const input = useRef()
+  const { myValue, myUpdateFunc } = useContext(SearchContext)
+  const input = useRef();
+
+  const handleSearch = () => {
+    myUpdateFunc(input.current.value);
+    console.log(myValue)
+  };
+
     return (
         <div>
-            <h1>Auctonera Mera!</h1>
+            <h1>Auktionera Mera!</h1>
             <nav className="NavBar"> 
               <NavLink to="/">Home</NavLink>
               <NavLink to="create">Create Auction</NavLink>
-              <input type="Search" ref={input} placeholder="Search for any auction" />
-              <NavLink to="/">
-                <button>Search</button>
+              <input type="Search" placeholder="Search for any auction" ref={input} />
+              <NavLink to="/" >
+                <button onClick={handleSearch}>Search</button>
               </NavLink>
-
-        </nav>
+          </nav>
         </div>
-
     )
 }
 
