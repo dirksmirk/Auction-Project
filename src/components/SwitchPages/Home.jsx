@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
@@ -20,6 +21,7 @@ function Home() {
             .then(data => {
                 setAuctions(data);
                 setLoading(false);
+                console.log(data)
             })
             .catch(error => {
                 setError(error.message);
@@ -37,6 +39,14 @@ function Home() {
         return <div>Error: {error}</div>;
     }
 
+    const hasAuctionEnded = (auction) => {
+        const endTime = new Date(auction.EndDate).getTime(); // Convert end time to milliseconds
+        const currentTime = new Date().getTime(); // Get current time in milliseconds
+        return endTime < currentTime;
+    };
+
+    
+
     // Render the list of auction items if data is successfully fetched
     return (
         <div style={{ margin: '20px' }}>
@@ -46,9 +56,15 @@ function Home() {
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         {/* Render AuctionItem component */}
                         <AuctionItem auction={auction} />
-                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}> {/* Use Link instead of button */}
+                        {hasAuctionEnded(auction) ? (
+                            <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
+                            <button style={{ marginTop: '10px' }}>Closed Auction</button>
+                        </Link>
+                        ) : (
+                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
                             <button style={{ marginTop: '10px' }}>Go to auction</button>
                         </Link>
+                        )}
                     </div>
                 ))}
             </div>
