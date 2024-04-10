@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function ClosedAuction() {
-  const [auctionData, setAuctionData] = useState(null);
+  const [auctionData, setAuctionData] = useState([]);
   const location = useLocation();
-  const auction = location.state.auction;
+  const auctions = location.state ? location.state.auctions : [];
 
   useEffect(() => {
     fetch('https://auctioneer2.azurewebsites.net/auction/7bac')
@@ -13,25 +13,29 @@ function ClosedAuction() {
       .catch(error => console.error('Error fetching auction data:', error));
   }, []);
 
-  if (!auctionData) {
+  if (!auctionData.length) {
     return <div>Loading...</div>;
   }
 
-  const { itemName, itemDescription, highestBidAmount, endDate } = auctionData;
+  // Filter auctions that have ended
+  const endedAuctions = auctionData.filter(auction => new Date(auction.EndDate) < new Date());
 
   return (
     <div className="container">
       <div className="auction-info">
-        <h2>Closed Auction</h2>
-        <p>This auction has ended and bidding is no longer available.</p>
-        <h3>Item Information</h3>
-        <p><strong>Item Name:</strong> {itemName}</p>
-        <p><strong>Description:</strong> {itemDescription}</p>
-        <p><strong>Current Highest Bid:</strong> {highestBidAmount}</p>
-        <p><strong>End Date:</strong> {endDate}</p>
+        <h2>Closed Auctions</h2>
+        {endedAuctions.map((auction, index) => (
+          <div key={index}>
+            <p><strong>Item Name:</strong> {auction.Title}</p>
+            <p><strong>Description:</strong> {auction.Description}</p>
+            <p><strong>Start Date:</strong> {auction.StartDate}</p>
+            <p><strong>End Date:</strong> {auction.EndDate}</p>
+            <hr />
+          </div>
+        ))}
       </div>
       <div className="notice">
-        <p><strong>Notice:</strong> Bidding for this item has ended. Thank you for your interest.</p>
+        <p><strong>Notice:</strong> Bidding for these items has ended. Thank you for your interest.</p>
       </div>
     </div>
   );
