@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
+import { SearchContext } from '../../Context';
 
 function Home() {
+
+    const { myValue } = useContext(SearchContext);
+    // Define state variables to manage auctions data, loading status, and errors
     const [auctions, setAuctions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,6 +22,7 @@ function Home() {
             .then(data => {
                 setAuctions(data);
                 setLoading(false);
+                console.log(data)
             })
             .catch(error => {
                 setError(error.message);
@@ -72,18 +77,42 @@ function Home() {
         return <div>Error: {error}</div>;
     }
 
+
+    const filteredAuctions = myValue
+        ? auctions.filter(auction => auction.Title && auction.Title.toLowerCase().includes(myValue.toLowerCase()))
+        : auctions;
+
+    const hasAuctionEnded = (auction) => {
+        const endTime = new Date(auction.EndDate).getTime(); // Convert end time to milliseconds
+        const currentTime = new Date().getTime(); // Get current time in milliseconds
+        return endTime < currentTime;
+    };
+
+
+    // Render the list of auction items if data is successfully fetched
+
     return (
         <div style={{ margin: '20px' }}>
             <h1>Auction Items</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {auctions.length > 0 && auctions.map((auction, index) => (
+                {filteredAuctions.length > 0 ? (
+                    filteredAuctions.map((auction, index) => (
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
+                        {hasAuctionEnded(auction) ? (
+                            <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
+                            <button style={{ marginTop: '10px' }}>Closed Auction</button>
+                        </Link>
+                        ) : (
                         <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
                             <button style={{ marginTop: '10px' }}>Go to auction</button>
                         </Link>
+                        )}
                     </div>
-                ))}
+                    ))
+                ) :(
+                    <div>No auctions found</div>
+                )}
             </div>
         </div>
     );
