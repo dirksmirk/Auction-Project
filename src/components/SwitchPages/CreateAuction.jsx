@@ -8,6 +8,11 @@ const CreateAuction = () => {
     const endTime = useRef();
     const creator = useRef();
 
+    // Function to get formatted current datetime
+    function getCurrentDateTime() {
+        const now = new Date();
+        return now.toISOString().slice(0, 16);
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -16,10 +21,6 @@ const CreateAuction = () => {
             alert("Alla fält måste fyllas i.");
             return; // Stoppa funktionen här om något fält är tomt
         }
-       
-    
-    
-        
         
         const data = {
             "Title": title.current.value,
@@ -54,7 +55,6 @@ const CreateAuction = () => {
             console.error('Error creating auction:', error);
         }
     }
-    
 
     return (
         <div>
