@@ -74,7 +74,7 @@ const CreateAuction = () => {
                 </div>
                 <div>
                     <label htmlFor="startTime">Start tid</label><br />
-                    <input type="datetime-local" name="startTime" ref={startTime} />
+                    <input type="datetime-local" name="startTime" ref={startTime} defaultValue={getCurrentDateTime()}/>
                 </div>
                 <div>
                     <label htmlFor="endTime">Slut tid</label><br />
