@@ -2,6 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 import { SearchContext } from '../../Context';
+import EndedAuction from './smaller components/EndedAuction';
+import ActiveAuction from './smaller components/ActiveAuction';
+
 
 function Home() {
 
@@ -80,16 +83,7 @@ function Home() {
 
     const filteredAuctions = myValue
         ? auctions.filter(auction => auction.Title && auction.Title.toLowerCase().includes(myValue.toLowerCase()))
-        : auctions;
-
-    const hasAuctionEnded = (auction) => {
-        const endTime = new Date(auction.EndDate).getTime(); // Convert end time to milliseconds
-        const currentTime = new Date().getTime(); // Get current time in milliseconds
-        return endTime < currentTime;
-    };
-
-
-    // Render the list of auction items if data is successfully fetched
+        : auctions.filter(auction => ActiveAuction(auction));
 
     return (
         <div style={{ margin: '20px' }}>
@@ -99,7 +93,7 @@ function Home() {
                     filteredAuctions.map((auction, index) => (
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
-                        {hasAuctionEnded(auction) ? (
+                        {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
                             <button style={{ marginTop: '10px' }}>Closed Auction</button>
                         </Link>
