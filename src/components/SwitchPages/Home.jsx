@@ -51,8 +51,7 @@ function Home() {
  }
 
     const handleDeleteAuction =(auctionID)=>{
-
-        fetch(`https://auctioneer2.azurewebsites.net/auction/7bac/${auctionID}`)
+        fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auctionID}`)
         .then(response=>{
            if (!response.ok){
             throw new Error('Network response was not ok');
