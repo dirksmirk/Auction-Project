@@ -3,23 +3,23 @@ const Footer = () => {
     return (
         <div className='Footer'>
             <section>
-                <h3>Köpa & sälja</h3>
-                <p>Köp & Budvillkor</p>
-                <p>Frågor & svar</p>
-                <p>Köp hos oss</p>
-                <p>Sälj med oss</p>
+                <h3>Buy & Sell</h3>
+                <p>Terms of Purchase & Bidding</p>
+                <p>FAQs</p>
+                <p>Buying with us</p>
+                <p>Selling with us</p>
             </section>
             <section>
-                <h3>Om Oss</h3>
-                <p>Om Auctioner Mera!</p>
-                <p>Integritetspolicy</p>
+                <h3>About Us</h3>
+                <p>About Auctions More!</p>
+                <p>Privacy Policy</p>
                 <p>Cookies</p>
             </section>
             <section>
-                <h3>Kontakta oss</h3>
+                <h3>Contact Us</h3>
                 <p>Support</p>
-                <p>Jobba hos oss</p>
-                <p>Transportinfo</p>
+                <p>Careers</p>
+                <p>Shipping Information</p>
             </section>
         </div>
     )
