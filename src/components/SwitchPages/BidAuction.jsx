@@ -3,16 +3,16 @@ import { useLocation } from 'react-router-dom';
 import AuctionItem from "./smaller components/AuctionItem";
 
 const BidAuction = () => {
-    const [bids, setBids] = useState([]);
-    const newBidAmount = useRef();
-    const newBidder = useRef();
-    const location = useLocation();
-    const auction = location.state.auction;
+    const [bids, setBids] = useState([]); // State for storing bids
+    const newBidAmount = useRef(); // Ref for new bid amount input field
+    const newBidder = useRef(); // Ref for new bidder input field
+    const location = useLocation(); // Hook for accessing the current URL location
+    const auction = location.state.auction; // Extracting auction data from the location state
     const [errorMessage, setErrorMessage] = useState('');
     const [highestBid, setHighestBid] = useState(0); 
 
-
     useEffect(() => {
+        // Effect hook to fetch all bids for the current auction
         const getAllBids = () => {
             fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auction.AuctionID}`)
                 .then((res) => res.json())
@@ -52,7 +52,7 @@ const BidAuction = () => {
           return;
         }
         
-        
+        // Send a POST request to place a bid
         fetch(`https://auctioneer2.azurewebsites.net/bid/7bac`, {
             method: 'POST',
             headers: {
@@ -73,7 +73,7 @@ const BidAuction = () => {
         })
         .then((data) => {
             console.log('Bid placed successfully:', data);
-            setBids([...bids, data]);
+            setBids([...bids, data]); // Update bids state with the newly placed bid
         })
         .catch((error) => {
             console.error('Failed to place bid:', error);
@@ -85,11 +85,13 @@ const BidAuction = () => {
             {auction && <AuctionItem isBidding={true} auction={auction} />}
             {errorMessage && <div>{errorMessage}</div>}
             <ul>
+                {/* Render each bid as a list item */}
                 {bids.map((bid, index) => (
                     <li key={index}>Bid by {bid.Bidder}: {bid.Amount}</li>
                 ))}
                 <p>Current Highest Bid: {highestBid}</p>
             </ul>
+            {/* Form for submitting a new bid */}
             <form onSubmit={handleBidSubmit}>
                 <label>
                     New Bid Amount:
@@ -105,5 +107,4 @@ const BidAuction = () => {
     );
 }
 
-export default BidAuction;
-
+export default BidAuction; // Export the BidAuction component

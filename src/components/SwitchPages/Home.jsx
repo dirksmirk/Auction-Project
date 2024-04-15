@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
@@ -25,7 +26,7 @@ function Home() {
             .then(data => {
                 setAuctions(data);
                 setLoading(false);
-                console.log(data)
+                console.log(data);
             })
             .catch(error => {
                 setError(error.message);
@@ -79,7 +80,6 @@ function Home() {
         return <div>Error: {error}</div>;
     }
 
-
     const filteredAuctions = myValue
         ? auctions.filter(auction => auction.Title && auction.Title.toLowerCase().includes(myValue.toLowerCase()))
         : auctions.filter(auction => ActiveAuction(auction));
@@ -94,12 +94,13 @@ function Home() {
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
-                            <button style={{ marginTop: '10px' }}>Closed Auction</button>
-                        </Link>
+                                <button style={{ marginTop: '10px' }}>Closed Auction</button>
+                            </Link>
                         ) : (
-                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
-                            <button style={{ marginTop: '10px' }}>Go to auction</button>
-                        </Link>
+                            // If the auction is ongoing, display a button to go to the bidding page
+                            <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
+                                <button style={{ marginTop: '10px' }}>Go to auction</button>
+                            </Link>
                         )}
                     </div>
                     ))
@@ -112,3 +113,4 @@ function Home() {
 }
 
 export default Home;
+
