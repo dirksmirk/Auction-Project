@@ -1,4 +1,4 @@
-import { Heading, Text, Button, Card, CardHeader, CardBody } from '@chakra-ui/react'
+import { Heading, Text, Button, Card, CardBody } from '@chakra-ui/react'
 
 const AuctionItem = ({ auction, isBidding, setAuctionId, onDelete }) => {
     
@@ -21,7 +21,7 @@ const AuctionItem = ({ auction, isBidding, setAuctionId, onDelete }) => {
                         <Text><b>End date</b> - {auction.EndDate}</Text>
                         {onDelete && 
                             <Button 
-                            _hover={{ boxShadow: 'lg', background: 'darkGrey' }}
+                            _hover={{ boxShadow: 'xl', background: 'red', color: 'white' }}
                             background='pink'
                             m={2}
                             onClick={handleDelete}>

@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useContext } from 'react';
-import { Button } from '@chakra-ui/react'
+import { Button, Card, CardBody } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 import { SearchContext } from '../../Context';
@@ -91,7 +91,10 @@ function Home() {
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {filteredAuctions.length > 0 ? (
                     filteredAuctions.map((auction, index) => (
-                    <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
+                    <Card key={index} 
+                        style={{ padding: '20px', margin: '20px', textAlign: 'center', flex: '0 0 20%' }}
+                        _hover={{ boxShadow: 'lg' }}
+                        >
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
@@ -102,7 +105,7 @@ function Home() {
                             <Button m={5}>Go to auction</Button>
                         </Link>
                         )}
-                    </div>
+                    </Card>
                     ))
                 ) :(
                     <div>No auctions found</div>
