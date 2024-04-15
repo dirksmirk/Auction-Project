@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useContext } from 'react';
+import { Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 import { SearchContext } from '../../Context';
@@ -94,13 +95,12 @@ function Home() {
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
-                                <button style={{ marginTop: '10px' }}>Closed Auction</button>
-                            </Link>
+                            <Button m={5}>Closed Auction</Button>
+                        </Link>
                         ) : (
-                            // If the auction is ongoing, display a button to go to the bidding page
-                            <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
-                                <button style={{ marginTop: '10px' }}>Go to auction</button>
-                            </Link>
+                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
+                            <Button m={5}>Go to auction</Button>
+                        </Link>
                         )}
                     </div>
                     ))
