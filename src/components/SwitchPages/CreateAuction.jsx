@@ -15,11 +15,13 @@ const CreateAuction = () => {
         return now.toISOString().slice(0, 16); // Format datetime as YYYY-MM-DDTHH:mm
     }
 
-    // Function to handle form submission
     async function handleSubmit(e) {
         e.preventDefault();
         
-        // Create data object with form input values
+        if (title.current.value === '' || description.current.value === '' || startTime.current.value === '' || endTime.current.value === '' || startBid.current.value === '' || creator.current.value === '') {
+            alert("Alla fält måste fyllas i.");
+            return; // Stoppa funktionen här om något fält är tomt
+        }
         const data = {
             "Title": title.current.value,
             "Description": description.current.value,

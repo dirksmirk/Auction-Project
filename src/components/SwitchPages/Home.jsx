@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
+import { SearchContext } from '../../Context';
+import EndedAuction from './smaller components/EndedAuction';
+import ActiveAuction from './smaller components/ActiveAuction';
+
 
 function Home() {
+
+    const { myValue } = useContext(SearchContext);
     // Define state variables to manage auctions data, loading status, and errors
     const [auctions, setAuctions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch auctions data from the API when component mounts
     useEffect(() => {
         fetch('https://auctioneer2.azurewebsites.net/auction/7bac')
             .then(response => {
@@ -28,35 +34,65 @@ function Home() {
             });
     }, []);
 
-    // Render loading message if data is still loading
+    
+ const handleDelete=(auctionID)=>{
+    fetch(`https://auctioneer2.azurewebsites.net/auction/7bac/${auctionID}`, {
+        method: 'DELETE',
+        
+    })
+    .then(response=>{
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        setAuctions(prevAuctions => prevAuctions.filter(auction => auction.AuctionID !== auctionID));
+    })
+    .catch(error => {
+        console.log(error);
+    });
+ }
+
+    const handleDeleteAuction =(auctionID)=>{
+        fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auctionID}`)
+        .then(response=>{
+           if (!response.ok){
+            throw new Error('Network response was not ok');
+           }
+           return response.json();
+        })
+        .then(bids=>{
+            if (bids.length===0){
+                handleDelete (auctionID);
+            }else{
+                alert("This auction has bids and cannot be deleted")
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching bids:', error);
+        });
+    }
+
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    // Render error message if there's an error fetching data
     if (error) {
         return <div>Error: {error}</div>;
     }
 
-    // Function to check if an auction has ended
-    const hasAuctionEnded = (auction) => {
-        const endTime = new Date(auction.EndDate).getTime(); // Convert end time to milliseconds
-        const currentTime = new Date().getTime(); // Get current time in milliseconds
-        return endTime < currentTime;
-    };
+    const filteredAuctions = myValue
+        ? auctions.filter(auction => auction.Title && auction.Title.toLowerCase().includes(myValue.toLowerCase()))
+        : auctions.filter(auction => ActiveAuction(auction));
 
-    // Render the list of auction items if data is successfully fetched
     return (
         <div style={{ margin: '20px' }}>
             <h1>Auction Items</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {auctions.length > 0 && auctions.map((auction, index) => (
+                {filteredAuctions.length > 0 ? (
+                    filteredAuctions.map((auction, index) => (
                     <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
-                        {/* Render AuctionItem component */}
-                        <AuctionItem auction={auction} />
-                        {/* Conditional rendering for buttons based on auction status */}
-                        {hasAuctionEnded(auction) ? (
-                            // If the auction has ended, display a button to view closed auction details
+                        <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
+                        {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
                                 <button style={{ marginTop: '10px' }}>Closed Auction</button>
                             </Link>
@@ -67,10 +103,14 @@ function Home() {
                             </Link>
                         )}
                     </div>
-                ))}
+                    ))
+                ) :(
+                    <div>No auctions found</div>
+                )}
             </div>
         </div>
     );
 }
 
 export default Home;
+

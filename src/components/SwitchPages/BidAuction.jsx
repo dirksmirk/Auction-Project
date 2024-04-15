@@ -8,6 +8,8 @@ const BidAuction = () => {
     const newBidder = useRef(); // Ref for new bidder input field
     const location = useLocation(); // Hook for accessing the current URL location
     const auction = location.state.auction; // Extracting auction data from the location state
+    const [errorMessage, setErrorMessage] = useState('');
+    const [highestBid, setHighestBid] = useState(0); 
 
     useEffect(() => {
         // Effect hook to fetch all bids for the current auction
@@ -15,23 +17,40 @@ const BidAuction = () => {
             fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auction.AuctionID}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    setBids(data); // Update bids state with fetched data
-                })
-                .catch((error) => {
-                    console.error('Failed to fetch bids:', error);
-                });
-        };
-        getAllBids(); // Call the function to fetch bids when the component mounts or when the auction ID changes
-    }, [auction.AuctionID]);
+                  setBids(data);
+                  // Calculate the highest bid from fetched bids
+                  const highest = data.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
+                  setHighestBid(highest);
+              })
+              .catch((error) => {
+                  console.error('Failed to fetch bids:', error);
+              });
+      };
+      getAllBids();
+  }, [auction.AuctionID]);
 
     const handleBidSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
+        e.preventDefault();
 
-        // Check if the bid amount is valid
-        /* if (isNaN(newBidAmount) || newBidAmount <= 0) {
-            console.error('Invalid bid amount');
-            return;
-        } */
+        const currentBidAmount = parseFloat(newBidAmount.current.value);
+
+        const now = new Date();
+        const startDate = new Date(auction.StartDate);
+        const endDate = new Date(auction.EndDate);
+
+        if (now < startDate) {
+          setErrorMessage("The auction has not started yet.")
+
+          return;
+        }
+
+        const highestBid = bids.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
+
+        if (currentBidAmount <= highestBid) {
+          setErrorMessage('Your bid amount is too low!')
+
+          return;
+        }
         
         // Send a POST request to place a bid
         fetch(`https://auctioneer2.azurewebsites.net/bid/7bac`, {
@@ -63,12 +82,14 @@ const BidAuction = () => {
 
     return (
         <div>
-            {auction && <AuctionItem isBidding={true} auction={auction} />} {/* Render AuctionItem component if auction data is available */}
+            {auction && <AuctionItem isBidding={true} auction={auction} />}
+            {errorMessage && <div>{errorMessage}</div>}
             <ul>
                 {/* Render each bid as a list item */}
                 {bids.map((bid, index) => (
-                    <li key={index}>Bid: {bid.Amount}</li>
+                    <li key={index}>Bid by {bid.Bidder}: {bid.Amount}</li>
                 ))}
+                <p>Current Highest Bid: {highestBid}</p>
             </ul>
             {/* Form for submitting a new bid */}
             <form onSubmit={handleBidSubmit}>
