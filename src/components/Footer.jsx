@@ -11,8 +11,6 @@ import {
 import { VisuallyHidden } from '@chakra-ui/visually-hidden';
 import { Icon } from '@chakra-ui/icons';
 
-
-
 const ExternalLinkButton = ({ href, label, children }) => {
   return (
     <chakra.button
@@ -23,7 +21,7 @@ const ExternalLinkButton = ({ href, label, children }) => {
       cursor={'pointer'}
       as={'a'}
       href={href}
-      display={'inline-flex'}
+      display={'center'}
       alignItems={'center'}
       justifyContent={'center'}
       transition={'background 0.3s ease'}
@@ -50,15 +48,12 @@ const Footer = () => {
       <Container as={Stack} maxW={'6xl'} py={10}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
           <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
+            <ListHeader>Auction Basics</ListHeader>
             <Box as="a" href={'#'}>
               Buy & Sell
             </Box>
             <Box as="a" href={'#'}>
               Terms of Purchase & Bidding
-            </Box>
-            <Box as="a" href={'#'}>
-              FAQs
             </Box>
             <Box as="a" href={'#'}>
               Buying with us
@@ -70,7 +65,26 @@ const Footer = () => {
           <Stack align={'flex-start'}>
             <ListHeader>Support</ListHeader>
             <Box as="a" href={'#'}>
+              Contact Us
+            </Box>
+            <Box as="a" href={'#'}>
+              FAQs
+            </Box>
+            <Box as="a" href={'#'}>
+              Support
+            </Box>
+            <Stack align={'flex-start'}></Stack>
+            <Box as="a" href={'#'}>
+              Shipping Information
+            </Box>
+          </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>Legal</ListHeader>
+            <Box as="a" href={'#'}>
               About Auctions More!
+            </Box>
+            <Box as="a" href={'#'}>
+              Careers
             </Box>
             <Box as="a" href={'#'}>
               Privacy Policy
@@ -78,20 +92,27 @@ const Footer = () => {
             <Box as="a" href={'#'}>
               Cookies
             </Box>
+           
+            
+            
+            
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Legal</ListHeader>
-            <Box as="a" href={'#'}>
-              Contact Us
+            <ListHeader>Follow us on social media!</ListHeader>
+            <Box as="a" href={''}>
+              
             </Box>
-            <Box as="a" href={'#'}>
-              Support
+            <Box as="a" href={'X'}>
+              X
             </Box>
-            <Box as="a" href={'#'}>
-              Careers
+            <Box as="a" href={'Instagram'}>
+              Instagram
             </Box>
-            <Box as="a" href={'#'}>
-              Shipping Information
+            <Box as="a" href={'TicTok'}>
+              TiKtok
+            </Box>
+            <Box as="a" href={'Facebook'}>
+              Facebook
             </Box>
           </Stack>
         </SimpleGrid>
@@ -109,10 +130,8 @@ const Footer = () => {
           spacing={4}
           justify={{ md: 'space-between' }}
           align={{ md: 'center' }}>
+         
           
-          <ExternalLinkButton href="#" label="External Link">
-            <Icon name="external-link" />
-          </ExternalLinkButton>
         </Container>
       </Box>
     </Box>
