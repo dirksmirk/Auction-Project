@@ -12,13 +12,12 @@ const BidAuction = () => {
     const [highestBid, setHighestBid] = useState(0); 
 
     useEffect(() => {
-        // Effect hook to fetch all bids for the current auction
         const getAllBids = () => {
             fetch(`https://auctioneer2.azurewebsites.net/bid/7bac/${auction.AuctionID}`)
                 .then((res) => res.json())
                 .then((data) => {
                   setBids(data);
-                  // Calculate the highest bid from fetched bids
+                  
                   const highest = data.reduce((maxBid, bid) => Math.max(maxBid, bid.Amount), 0);
                   setHighestBid(highest);
               })
@@ -36,7 +35,7 @@ const BidAuction = () => {
 
         const now = new Date();
         const startDate = new Date(auction.StartDate);
-        const endDate = new Date(auction.EndDate);
+  
 
         if (now < startDate) {
           setErrorMessage("The auction has not started yet.")
@@ -52,7 +51,6 @@ const BidAuction = () => {
           return;
         }
         
-        // Send a POST request to place a bid
         fetch(`https://auctioneer2.azurewebsites.net/bid/7bac`, {
             method: 'POST',
             headers: {
@@ -73,7 +71,9 @@ const BidAuction = () => {
         })
         .then((data) => {
             console.log('Bid placed successfully:', data);
-            setBids([...bids, data]); // Update bids state with the newly placed bid
+            setBids(prevBids => [...prevBids, data]);
+            setHighestBid(Math.max(highestBid, currentBidAmount));
+            setErrorMessage('');
         })
         .catch((error) => {
             console.error('Failed to place bid:', error);
@@ -107,4 +107,4 @@ const BidAuction = () => {
     );
 }
 
-export default BidAuction; // Export the BidAuction component
+export default BidAuction;

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import {
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+} from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
+
+
 
 function ClosedAuction() {
   // State variables to hold auction data and loading state
@@ -56,17 +66,45 @@ function ClosedAuction() {
   return (
     <div className="container">
       <div className="auction-info">
-        <h2>Closed Auction</h2>
+      <Heading as='h3' size='lg'>
+    Closed Auction
+  </Heading>
         {auctionData.length > 0 ? (
           // Map through auctionData to display auction information
           auctionData.map((auction, index) => (
             <div key={index}>
-              <p><strong>Item Name:</strong> {auction.Title}</p>
-              <p><strong>Description:</strong> {auction.Description}</p>
-              <p><strong>Start Date:</strong> {auction.StartDate}</p>
-              <p><strong>End Date:</strong> {auction.EndDate}</p>
-              <p><strong>Closing Bid:</strong> {closingBid}</p> {/* Display closing bid */}
-              <hr />
+             <List spacing={3}>
+  <ListItem>
+  
+    Title:  {auction.Title}
+  </ListItem>
+ 
+  <ListItem>
+    
+    Item Name: {auction.Description}
+  </ListItem>
+  <ListItem>
+ 
+  
+    Description: {auction.Description}
+  </ListItem>
+  <ListItem>
+    
+    Start Date: {auction.StartDate}
+  </ListItem>
+  <ListItem>
+    
+    End Date: {auction.EndDate}
+  </ListItem>
+  {/* You can also use custom icons from react-icons */}
+  <ListItem>
+  ✅
+    Closing Bid: {closingBid}
+  </ListItem>
+</List>
+             
+             
+              
             </div>
           ))
         ) : (

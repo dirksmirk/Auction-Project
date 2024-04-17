@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useContext } from 'react';
-import { Button } from '@chakra-ui/react'
+import { Button, Card, Box } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import AuctionItem from './smaller components/AuctionItem';
 import { SearchContext } from '../../Context';
@@ -86,12 +86,25 @@ function Home() {
         : auctions.filter(auction => ActiveAuction(auction));
 
     return (
-        <div style={{ margin: '20px' }}>
-            <h1>Auction Items</h1>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Box 
+        backgroundColor="#ce9c75" 
+        m={4} 
+        width="100%" 
+        border='10px' 
+        borderStyle='ridge' 
+        borderColor='#aa623d' 
+        borderRadius={5}>
+            <Box 
+            display="flex" 
+            flexWrap="wrap">
                 {filteredAuctions.length > 0 ? (
                     filteredAuctions.map((auction, index) => (
-                    <div key={index} style={{ border: '1px solid #ccc', padding: '20px', margin: '10px', textAlign: 'center', flex: '0 0 20%' }}>
+                    <Card key={index} 
+                        style={{ padding: '20px', margin: '20px', textAlign: 'center'}}
+                        backgroundColor="#f9eab0"
+                        _hover={{ boxShadow: 'lg' }}
+                        flex='1 0 25%'
+                        >
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
                             <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
@@ -102,13 +115,15 @@ function Home() {
                             <Button m={5}>Go to auction</Button>
                         </Link>
                         )}
-                    </div>
+                    </Card>
                     ))
                 ) :(
-                    <div>No auctions found</div>
+                    <Box>
+                        Sorry, there are no auction under that name! <br />
+                        Please come back again later and someone might have posted something.</Box>
                 )}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
 
