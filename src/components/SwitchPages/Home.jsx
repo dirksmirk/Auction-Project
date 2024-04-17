@@ -35,7 +35,6 @@ function Home() {
             });
     }, []);
 
-    
  const handleDelete=(auctionID)=>{
     fetch(`https://auctioneer2.azurewebsites.net/auction/7bac/${auctionID}`, {
         method: 'DELETE',
@@ -107,11 +106,11 @@ function Home() {
                         >
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
-                            <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }} style={{ textDecoration: 'none' }}>
+                            <Link to={`/closed/${auction.AuctionID}`} state={{ auction: auction }}>
                             <Button m={5}>Closed Auction</Button>
                         </Link>
                         ) : (
-                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}} style={{ textDecoration: 'none' }}>
+                        <Link to={`/bid/${auction.AuctionID}`} state={{auction: auction}}>
                             <Button m={5}>Go to auction</Button>
                         </Link>
                         )}

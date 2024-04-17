@@ -1,35 +1,76 @@
-import { NavLink } from "react-router-dom";
-import { SearchContext } from "../Context";
-import { useContext, useRef } from "react";
+import { useContext, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
+import { SearchContext } from '../Context';
+import {
+  Box,
+  Flex,
+  Input,
+  Button,
+  useColorModeValue,
+  HStack,
+} from '@chakra-ui/react';
 
+const Links = [
+  { to: '/', text: 'Home' },
+  { to: '/create', text: "Create Auction" }, // corrected the 'to' value
+];
 
 const Navigation = () => {
-  const { myValue, myUpdateFunc } = useContext(SearchContext)
+  const { myUpdateFunc } = useContext(SearchContext);
   const input = useRef();
 
   const handleSearch = () => {
-    myUpdateFunc(input.current.value);
-    console.log(myValue)
-  };
+    const inputValue = input.current.value.trim(); // Remove leading and trailing whitespaces
 
+    if (inputValue === '') {
+      // If the search input is empty, navigate to the home page
+      window.location.href = '/';
+    } else {
+      // If the search input is not empty, update the search context
+      myUpdateFunc(inputValue);
+      console.log(inputValue);
+    }
+  };
+  // reset function for home and create auction inputs, so that search resets
   const Reset = () => {
     input.current.value = "";
     myUpdateFunc("");
   };
 
-    return (
-        <div>
-            <h1>Auktionera Mera!</h1>
-            <nav className="NavBar"> 
-              <NavLink to="/" onClick={Reset}>Home</NavLink>
-              <NavLink to="create" onClick={Reset}>Create Auction</NavLink>
-              <input type="Search" placeholder="Search for any auction" ref={input} />
-              <NavLink to="/" >
-                <button onClick={handleSearch}>Search</button>
+  return (
+    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <HStack spacing={8} alignItems={'center'}>
+          <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
+            {Links.map((link) => (
+              <NavLink key={link.to} to={link.to} onClick={Reset}>
+                {link.text}
               </NavLink>
-          </nav>
-        </div>
-    )
-}
+            ))}
+          </HStack>
+        </HStack>
+        <Flex alignItems={'center'}>
+          <Input
+            ref={input}
+            placeholder="Search"
+            border='2px' 
+            borderStyle='ridge' 
+            borderColor='gray' 
+            borderRadius={5}
+            size="sm"
+            pr="4.5rem"
+          />
+          <Button
+            size="sm"
+            colorScheme="blue"
+            onClick={handleSearch}
+            ml={2}
+          >Search
+          </Button>
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
 
-export default Navigation
+export default Navigation;
