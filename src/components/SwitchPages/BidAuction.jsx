@@ -100,7 +100,7 @@ const BidAuction = () => {
                 ))}
 
           <Box margin='10px'>
-            <Text fontSize='20px' as='b'>Current highest bid</Text> <Text>{highestBid}</Text>
+            <Text fontSize='20px' as='b'>Highest bid</Text> <Text>{highestBid}</Text>
             </Box>
             </List>
             </UnorderedList>
