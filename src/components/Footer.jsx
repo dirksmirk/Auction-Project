@@ -102,7 +102,7 @@ const Footer = () => {
             <Box as="a" href={''}>
               
             </Box>
-            <Box as="a" href={'X'}>
+            <Box as="a" href={'./src/Images/X.png'}>
               X
             </Box>
             <Box as="a" href={'Instagram'}>
