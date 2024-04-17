@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Input ,Image, Textarea,Text, NumberInput,Button, NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Card, FormLabel,FormControl,} from '@chakra-ui/react'
+import { Input ,Center,  Textarea,Text, NumberInput,Button, NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Card, FormLabel,FormControl,} from '@chakra-ui/react'
 
 const CreateAuction = () => {
     // Refs to store input values
@@ -54,8 +54,10 @@ const CreateAuction = () => {
 
     // Render form for creating a new auction
     return (
-        <Card borderWidth='19px' mt={20}   p={55}  bg='beige' borderColor='grey'  >
-             <FormControl>
+        <Center>
+        <Card maxW='lg'  borderWidth='19px' mt={20} mb={20}  p={55}  bg='beige' borderColor='grey'  >
+
+             <FormControl >
                 
            <Text   fontSize='6xl'>New Auction </Text>
             <form onSubmit={handleSubmit}   >
@@ -97,6 +99,7 @@ const CreateAuction = () => {
             
             </FormControl>
         </Card> 
+        </Center>
     )
 }
 
