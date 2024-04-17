@@ -59,7 +59,7 @@ const CreateAuction = () => {
 
              <FormControl >
                 
-           <Text   fontSize='6xl'>New Auction </Text>
+           <Text   fontSize='5xl'as='b' >New Auction </Text>
             <form onSubmit={handleSubmit}   >
                 <div>
                 
@@ -94,7 +94,7 @@ const CreateAuction = () => {
                 <FormLabel htmlFor="creator">Your Name</FormLabel>
                     <Input type="text" name="creator" ref={creator} borderColor='black.900'  />
                 </div>
-                <Button colorScheme='blue'  m={2} type="submit">Create</Button>
+                <Button colorScheme='blue'  m={3} ml={105} type="submit">Create</Button>
             </form>
             
             </FormControl>
