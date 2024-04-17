@@ -8,17 +8,17 @@ const AuctionItem = ({ auction, isBidding, setAuctionId, onDelete }) => {
     };
 
     return (
-        <Card /* style={{ border: '1px solid red', padding: '10px' }} */>
+        <Card padding={5} /* style={{ border: '1px solid red', padding: '10px' }} */>
             {auction && (
                 <>
                     <Heading as='h1'>{auction.Title}</Heading>
                     <CardBody>
                         {isBidding && 
                             <Text><b>Description: </b> - {auction.Description}</Text>}
-                        <Text >Start price - {auction.StartingPrice}</Text>
-                        <Text>Seller - {auction.CreatedBy}</Text>
-                        <Text><b>Start date</b> -  {auction.StartDate}</Text>
-                        <Text><b>End date</b> - {auction.EndDate}</Text>
+                        <Text><b>Start price</b> - {auction.StartingPrice}</Text>
+                        <Text><b>Seller</b> - {auction.CreatedBy}</Text>
+                        <Text><b>Start date</b> -  <br />{auction.StartDate}</Text>
+                        <Text><b>End date</b> - <br />{auction.EndDate}</Text>
                         {onDelete && 
                             <Button 
                             _hover={{ boxShadow: 'xl', background: 'red', color: 'white' }}

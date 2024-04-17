@@ -86,15 +86,24 @@ function Home() {
         : auctions.filter(auction => ActiveAuction(auction));
 
     return (
-        <Box backgroundColor="#ce9c75" m={4} width="100%" /* style={{ margin: '20px' }} */>
-            <h1>Auction Items</h1>
-            <Box display="flex" flexWrap="wrap">
+        <Box 
+        backgroundColor="#ce9c75" 
+        m={4} 
+        width="100%" 
+        border='10px' 
+        borderStyle='ridge' 
+        borderColor='#aa623d' 
+        borderRadius={5}>
+            <Box 
+            display="flex" 
+            flexWrap="wrap">
                 {filteredAuctions.length > 0 ? (
                     filteredAuctions.map((auction, index) => (
                     <Card key={index} 
-                        style={{ padding: '20px', margin: '20px', textAlign: 'center', flex: '0 0 20%' }}
+                        style={{ padding: '20px', margin: '20px', textAlign: 'center'}}
                         backgroundColor="#f9eab0"
                         _hover={{ boxShadow: 'lg' }}
+                        flex='1 0 25%'
                         >
                         <AuctionItem auction={auction} onDelete={handleDeleteAuction} />
                         {EndedAuction(auction) ? (
@@ -109,7 +118,9 @@ function Home() {
                     </Card>
                     ))
                 ) :(
-                    <div>No auctions found</div>
+                    <Box>
+                        Sorry, there are no auction under that name! <br />
+                        Please come back again later and someone might have posted something.</Box>
                 )}
             </Box>
         </Box>
