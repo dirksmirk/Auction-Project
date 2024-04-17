@@ -16,20 +16,13 @@ const Links = [
 ];
 
 const Navigation = () => {
-  const { myUpdateFunc } = useContext(SearchContext);
+  const { myvalue, myUpdateFunc } = useContext(SearchContext);
   const input = useRef();
 
   const handleSearch = () => {
     const inputValue = input.current.value.trim(); // Remove leading and trailing whitespaces
+    myUpdateFunc(inputValue);
 
-    if (inputValue === '') {
-      // If the search input is empty, navigate to the home page
-      window.location.href = '/';
-    } else {
-      // If the search input is not empty, update the search context
-      myUpdateFunc(inputValue);
-      console.log(inputValue);
-    }
   };
   // reset function for home and create auction inputs, so that search resets
   const Reset = () => {
@@ -60,13 +53,15 @@ const Navigation = () => {
             size="sm"
             pr="4.5rem"
           />
-          <Button
-            size="sm"
-            colorScheme="blue"
-            onClick={handleSearch}
-            ml={2}
-          >Search
-          </Button>
+          <NavLink to="/" >
+            <Button
+              size="sm"
+              colorScheme="blue"
+              onClick={handleSearch}
+              ml={2}
+              >Search
+            </Button>
+          </NavLink>
         </Flex>
       </Flex>
     </Box>
