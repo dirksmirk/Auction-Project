@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Input ,Center,  Textarea,Text, NumberInput,Button, NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Card, FormLabel,FormControl,} from '@chakra-ui/react'
 
 const CreateAuction = () => {
     // Refs to store input values
@@ -12,6 +13,7 @@ const CreateAuction = () => {
     // Function to get formatted current datetime
     function getCurrentDateTime() {
         const now = new Date();
+       
         return now.toISOString().slice(0, 16); // Format datetime as YYYY-MM-DDTHH:mm
     }
 
@@ -19,7 +21,7 @@ const CreateAuction = () => {
         e.preventDefault();
         
         if (title.current.value === '' || description.current.value === '' || startTime.current.value === '' || endTime.current.value === '' || startBid.current.value === '' || creator.current.value === '') {
-            alert("Alla fält måste fyllas i.");
+            alert ("Alla fält måste fyllas i.");
             return; // Stoppa funktionen här om något fält är tomt
         }
         const data = {
@@ -47,40 +49,57 @@ const CreateAuction = () => {
         .catch(error => {
             console.error('Error creating auction:', error);
         });
+        alert("Auktionen har skapats ");
     }
 
     // Render form for creating a new auction
     return (
-        <div>
-            <h1>New Auction</h1>
-            <form onSubmit={handleSubmit}>
+        <Center>
+        <Card maxW='lg'  borderWidth='19px' mt={20} mb={20}  p={55}  bg='beige' borderColor='grey'  >
+
+             <FormControl >
+                
+           <Text   fontSize='6xl'>New Auction </Text>
+            <form onSubmit={handleSubmit}   >
                 <div>
-                    <label htmlFor="title">Title</label><br />
-                    <input type="text" name="title" ref={title} />
+                
+                <FormLabel htmlFor="Title">Title</FormLabel>
+                    <Input type="text" name="title" ref={title} borderColor='black'placeholder='Title'  />
+                </div>
+
+                <div>
+                <FormLabel htmlFor="Title"> Description</FormLabel>
+                    <Textarea name="description" ref={description} borderColor='black.900' placeholder='right your description'  />
+                </div>
+
+                <div>
+                <FormLabel htmlFor="startBid"borderColor='black.900' >Start Bid</FormLabel>
+                   <NumberInput defaultValue={15} min={0} max={10000000} name="startBid"  ref={startBid} borderColor='black' >
+                     <NumberInputField />
+                      <NumberInputStepper>
+                       <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                       </NumberInputStepper>
+                    </NumberInput>
                 </div>
                 <div>
-                    <label htmlFor="description">Description</label><br />
-                    <textarea name="description" ref={description} />
+                <FormLabel htmlFor="startTime">Start Time</FormLabel>
+                    <Input type="datetime-local" borderColor='black.900' name="startTime"  ref={startTime} defaultValue={getCurrentDateTime()} />
                 </div>
                 <div>
-                    <label htmlFor="startBid">Start Bid</label><br />
-                    <input type="number" name="startBid" ref={startBid} />
+                <FormLabel htmlFor="endTime">End Time</FormLabel>
+                    <Input type="datetime-local" borderColor='black.900' name="endTime" ref={endTime} />
                 </div>
                 <div>
-                    <label htmlFor="startTime">Start Time</label><br />
-                    <input type="datetime-local" name="startTime" ref={startTime} defaultValue={getCurrentDateTime()} />
+                <FormLabel htmlFor="creator">Your Name</FormLabel>
+                    <Input type="text" name="creator" ref={creator} borderColor='black.900'  />
                 </div>
-                <div>
-                    <label htmlFor="endTime">End Time</label><br />
-                    <input type="datetime-local" name="endTime" ref={endTime} />
-                </div>
-                <div>
-                    <label htmlFor="creator">Your Name</label><br />
-                    <input type="text" name="creator" ref={creator} />
-                </div>
-                <button type="submit">Create</button>
+                <Button colorScheme='blue'  m={2} type="submit">Create</Button>
             </form>
-        </div>
+            
+            </FormControl>
+        </Card> 
+        </Center>
     )
 }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from 'react-router-dom';
+import { List, ListItem, UnorderedList, Text, Box, Input, Button } from '@chakra-ui/react';
 import AuctionItem from "./smaller components/AuctionItem";
 
 const BidAuction = () => {
@@ -69,41 +70,57 @@ const BidAuction = () => {
             }
             return res.json();
         })
-        .then((data) => {
-            console.log('Bid placed successfully:', data);
-            setBids(prevBids => [...prevBids, data]);
+        .then(() => {
+            setBids(prevBids => [...prevBids, { Amount: newBidAmount.current.value, Bidder: newBidder.current.value }]);
             setHighestBid(Math.max(highestBid, currentBidAmount));
-            setErrorMessage('');
-        })
+            setErrorMessage('')
+          })
         .catch((error) => {
             console.error('Failed to place bid:', error);
         });
     };
 
+    
+
     return (
-        <div>
+      <>
+      <Box display="flex" justifyContent='space-around' margin='20px'>
+
             {auction && <AuctionItem isBidding={true} auction={auction} />}
-            {errorMessage && <div>{errorMessage}</div>}
-            <ul>
-                {/* Render each bid as a list item */}
+          <Box>
+          <Box margin='10px'>
+            <Text fontSize='20px' as='b'>Bid history</Text>
+            </Box>
+
+            <UnorderedList>
+            <List spacing={0}>
                 {bids.map((bid, index) => (
-                    <li key={index}>Bid by {bid.Bidder}: {bid.Amount}</li>
+                    <ListItem fontSize='15px' key={index}>
+                       <Text fontSize='15px' as='b' textAlign='left'>Bid by: </Text>{bid.Bidder}: {bid.Amount}</ListItem>
                 ))}
-                <p>Current Highest Bid: {highestBid}</p>
-            </ul>
-            {/* Form for submitting a new bid */}
+
+          <Box margin='10px'>
+            <Text fontSize='20px' as='b'>Current highest bid</Text> <Text>{highestBid}</Text>
+            </Box>
+            </List>
+            </UnorderedList>
+            </Box>
+            </Box>
+                  
+            <Text color='red'textAlign='center'margin='5px'>{errorMessage && <div>{errorMessage}</div>} </Text>
+
             <form onSubmit={handleBidSubmit}>
                 <label>
                     New Bid Amount:
-                    <input type="number" ref={newBidAmount} />
+                    <Input variant='filled' width='20%' type="number" ref={newBidAmount} />
                 </label>
-                <label>
+                <label> 
                     Enter name:
-                    <input type="text" ref={newBidder} />
+                    <Input variant='filled' width='20%' type="text" ref={newBidder} />
                 </label>
-                <button type="submit">Place Bid</button>
+                <Button colorScheme='gray' variant='solid' margin='20px' type="submit">Place Bid</Button>
             </form>
-        </div>
+      </>
     );
 }
 
